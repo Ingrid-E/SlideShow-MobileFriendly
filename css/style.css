@@ -1,0 +1,27 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#slideShow {
+    margin-top: 100px;
+    margin: auto;
+    width: 300px;
+    height: auto;
+    overflow-x: hidden;
+    background-color: pink;
+}
+
+#slideShow ul{
+    display: flex;
+}
+#slideShow li {
+    margin-right: 300px;
+    list-style-type: none;
+    background-color: blue;
+}
+
+#slideShow .images {
+    width: 300px;
+}
+
