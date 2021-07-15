@@ -21,7 +21,7 @@ slides.forEach((slide, index)=>{
 
     //Touch events
     slide.addEventListener('touchstart', touchStart(index)) //When clicking on the image
-    slide.addEventListener('touchend', touchEnd) //When stopped clicking the image
+    slide.addEventListener('touchend', touchLeave) //When stopped clicking the image
     slide.addEventListener('touchmove', touchMove) //When dragging the screen
 
     //Mouse Events
@@ -70,7 +70,6 @@ function touchEnd(){
 
 function touchLeave(){
     automatic = setInterval(automaticSlides, 3000)
-
     touchEnd()
 }
 
