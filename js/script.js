@@ -1,4 +1,4 @@
-//Followed https://youtu.be/5bxFSOA5JYo Traversy Media Tutorial
+//Followed https://youtu.be/5bxFSOA5JYo Traversy Media Tutorial and edited to also be automatic
 
 const slider = document.querySelector('.slider-container'),
       slides = Array.from(document.querySelectorAll('#slideShow li'))
@@ -9,7 +9,7 @@ let isDragging = false,
     prevTranslate = 0,
     animationID = 0,
     currentIndex = 0,
-    automaticDir = 'right'
+    automaticDir = 'right';
 
 slides.forEach((slide, index)=>{
     const slideImage = slide.querySelector('img')
@@ -26,7 +26,7 @@ slides.forEach((slide, index)=>{
 
     //Mouse Events
     slide.addEventListener('mousedown', touchStart(index)) //When clicking on the image
-    slide.addEventListener('mouseup', touchEnd) //When stopped clicking the image
+    slide.addEventListener('mouseup', touchLeave) //When stopped clicking the image
     slide.addEventListener('mouseleave', touchEnd) //When it leaves the slide
     slide.addEventListener('mousemove', touchMove) //When dragging the screen
 })
@@ -49,12 +49,14 @@ function touchStart(index){
         slider.classList.add('grabbing')
         slider.classList.remove('automatic')
         clearInterval(automatic)
+
     }
 }
 
 function touchEnd(){
     cancelAnimationFrame(animationID)
     isDragging = false
+
     const movedBy = currentTranslate - prevTranslate
 
     if(movedBy < -100 && currentIndex < slides.length - 1) currentIndex += 1
@@ -64,7 +66,12 @@ function touchEnd(){
     setPositionByIndex()
 
     slider.classList.remove('grabbing')
+}
+
+function touchLeave(){
     automatic = setInterval(automaticSlides, 3000)
+
+    touchEnd()
 }
 
 function touchMove(event){
@@ -99,16 +106,14 @@ function setPositionByIndex(){
 //Automatic SlideShow
 
 function automaticSlides(){
+    if(currentIndex == 0) automaticDir = 'right';
+    if(currentIndex == slides.length - 1) automaticDir = 'left';
 
-    if(currentIndex == 0) automaticDir = 'right'
-    if(currentIndex == slides.length - 1) automaticDir = 'left'
+    if(automaticDir == 'right') currentIndex +=1;
+    if(automaticDir == 'left') currentIndex -=1;
 
-    if(automaticDir == 'right') currentIndex +=1
-    if(automaticDir == 'left') currentIndex -=1
-
-    console.log(currentIndex)
-    slider.classList.add('automatic')
-    setPositionByIndex()
+    slider.classList.add('automatic');
+    setPositionByIndex();
 }
 
 let automatic = setInterval(automaticSlides, 3000)
